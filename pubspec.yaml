@@ -1,6 +1,6 @@
 name: lapisco_challenge
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -9,6 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.0
+  shared_preferences: ^2.0.9
+  http: ^1.3.0
+  fl_chart: ^0.40.0
+  geolocator: ^9.0.1
 
 dev_dependencies:
   flutter_test:
