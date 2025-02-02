@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lapisco_challenge/blocs/search_city_bloc.dart/search_city_bloc.dart';
 import 'package:lapisco_challenge/blocs/weather_bloc/weather_bloc.dart';
-import 'services/weather_service.dart';
+import 'package:lapisco_challenge/services/weather_service.dart';
 import 'screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
 class MyApp extends StatelessWidget {
@@ -25,9 +24,22 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider(
-        create: (context) => WeatherBloc(weatherService: weatherService),
-        child: const HomeScreen(),
+      home: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(create: (_) => weatherService),
+        ],
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => WeatherBloc(weatherService: weatherService),
+            ),
+            BlocProvider(
+              create: (context) =>
+                  SearchCityBloc(weatherService: weatherService),
+            ),
+          ],
+          child: const HomeScreen(),
+        ),
       ),
     );
   }
