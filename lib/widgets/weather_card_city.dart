@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lapisco_challenge/models/weather_data.dart';
+import 'package:lapisco_challenge/models/weather_by_city/weather_by_city.dart';
 
-class WeatherCard extends StatelessWidget {
-  final WeatherData weatherData;
+class WeatherCardByCity extends StatelessWidget {
+  final WeatherByCity weatherData;
 
-  const WeatherCard({super.key, required this.weatherData});
+  const WeatherCardByCity({super.key, required this.weatherData});
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +62,7 @@ class WeatherCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
 
+            // Velocidade do vento
             Row(
               children: [
                 const Icon(
