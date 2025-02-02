@@ -1,4 +1,4 @@
-import 'package:lapisco_challenge/models/weather_data.dart';
+import 'package:lapisco_challenge/models/weather_by_geolocation/weather_by_geolocation.dart';
 
 abstract class WeatherState {}
 
@@ -6,9 +6,9 @@ class WeatherInitial extends WeatherState {}
 
 class WeatherLoading extends WeatherState {}
 
-class WeatherLoaded extends WeatherState {
-  final WeatherData weatherData;
-  WeatherLoaded(this.weatherData);
+class WeatherLoadedByGeolocation extends WeatherState {
+  final WeatherByGeolocation weatherData;
+  WeatherLoadedByGeolocation(this.weatherData);
 }
 
 class WeatherError extends WeatherState {
