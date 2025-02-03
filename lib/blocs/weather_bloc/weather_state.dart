@@ -1,4 +1,4 @@
-import 'package:lapisco_challenge/models/weather_by_geolocation/weather_by_geolocation.dart';
+import 'package:lapisco_challenge/models/weather_by_geolocation/weather_by_geo.dart';
 
 abstract class WeatherState {}
 
