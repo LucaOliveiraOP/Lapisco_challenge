@@ -19,12 +19,17 @@ class WeatherService {
 
       if (geocodingResponse.statusCode == 200) {
         final geocodingData = json.decode(geocodingResponse.body);
+        log('geocodingData = $geocodingData');
 
         if (geocodingData['results'] != null &&
             geocodingData['results'].isNotEmpty) {
           final latitude = geocodingData['results'][0]['latitude'];
           final longitude = geocodingData['results'][0]['longitude'];
           final cityNameFromApi = geocodingData['results'][0]['name'];
+
+          final admin1FromApi =
+              geocodingData['results'][0]['admin1'] ?? 'Desconhecido';
+          log('admin1FromApi = $admin1FromApi');
 
           final weatherUrl = Uri.parse(
               '$apiUrl?latitude=$latitude&longitude=$longitude&current=temperature_2m,relative_humidity_2m,is_day,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo');
@@ -50,6 +55,7 @@ class WeatherService {
 
             return WeatherByCity.fromJson({
               'city_name': cityNameFromApi,
+              'admin1': admin1FromApi,
               ...weatherData,
             });
           } else {

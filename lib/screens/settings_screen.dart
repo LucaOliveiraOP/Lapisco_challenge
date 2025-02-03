@@ -36,22 +36,20 @@ class SettingsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
-                  // Texto "Modo Escuro" com contorno
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Texto com contorno (sombra)
                       Text(
                         'Modo Escuro',
                         style: TextStyle(
                           fontSize: 20,
-                          color: textColor.withOpacity(0.7),
+                          color: textColor,
                           fontWeight: FontWeight.bold,
                           shadows: [
                             Shadow(
                               offset: Offset(2.0, 2.0),
                               blurRadius: 3.0,
-                              color: shadowColor.withOpacity(0.8),
+                              color: shadowColor,
                             ),
                           ],
                         ),
