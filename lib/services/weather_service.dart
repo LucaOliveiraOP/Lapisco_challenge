@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:lapisco_challenge/models/weather_by_city/weather_by_city.dart';
-import 'package:lapisco_challenge/models/weather_by_geolocation/weather_data.dart';
+import 'package:lapisco_challenge/models/weather_by_geolocation/weather_by_geo.dart';
 
 class WeatherService {
   final String apiUrl = 'https://api.open-meteo.com/v1/forecast';

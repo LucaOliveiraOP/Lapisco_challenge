@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:lapisco_challenge/models/weather_by_geolocation/weather_data.dart';
+import 'package:lapisco_challenge/models/weather_by_geolocation/weather_by_geo.dart';
 import 'package:lapisco_challenge/widgets/temperature_chart.dart';
 import 'package:lottie/lottie.dart';
 

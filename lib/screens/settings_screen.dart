@@ -13,74 +13,142 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Configurações'),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background.png'),
-            fit: BoxFit.contain,
-            alignment: Alignment.topCenter,
-          ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              const Text(
-                'Modo Escuro',
-                style: TextStyle(fontSize: 20, color: Colors.black),
+      body: BlocBuilder<ConfigBloc, ConfigState>(
+        builder: (context, state) {
+          final backgroundImage = state.isDarkMode
+              ? 'assets/images/background2.png'
+              : 'assets/images/background.png';
+
+          // Definir as cores de texto dependendo do tema
+          final textColor = state.isDarkMode ? Colors.white : Colors.black;
+          final shadowColor = state.isDarkMode ? Colors.black : Colors.white;
+
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(backgroundImage),
+                fit: BoxFit.contain,
+                alignment: Alignment.bottomCenter,
               ),
-              BlocBuilder<ConfigBloc, ConfigState>(
-                builder: (context, configState) {
-                  return Switch(
-                    value: configState.isDarkMode,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  // Texto "Modo Escuro" com contorno
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Texto com contorno (sombra)
+                      Text(
+                        'Modo Escuro',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: textColor.withOpacity(0.7),
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2.0, 2.0),
+                              blurRadius: 3.0,
+                              color: shadowColor.withOpacity(0.8),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Texto real
+                      Text(
+                        'Modo Escuro',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  BlocBuilder<ConfigBloc, ConfigState>(
+                    builder: (context, configState) {
+                      return Switch(
+                        value: configState.isDarkMode,
+                        onChanged: (bool value) {
+                          if (value) {
+                            context.read<ConfigBloc>().add(SetDarkThemeEvent());
+                          } else {
+                            context
+                                .read<ConfigBloc>()
+                                .add(SetLightThemeEvent());
+                          }
+                          final snackBar = SnackBar(
+                            content: const Text(
+                              'Tema alterado com sucesso!',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: const Color(0xFF28A745),
+                            duration: const Duration(seconds: 2),
+                            padding: const EdgeInsets.only(
+                                left: 16, top: 16, bottom: 16),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                        activeColor: const Color(0xFF28A745),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 40),
+                  // Texto "Notificações" com contorno
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Texto com contorno (sombra)
+                      Text(
+                        'Notificações',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2.0, 2.0),
+                              blurRadius: 3.0,
+                              color: shadowColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Texto real
+                      Text(
+                        'Notificações',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Switch(
+                    value: false,
                     onChanged: (bool value) {
-                      if (value) {
-                        context.read<ConfigBloc>().add(SetDarkThemeEvent());
-                      } else {
-                        context.read<ConfigBloc>().add(SetLightThemeEvent());
-                      }
                       final snackBar = SnackBar(
                         content: const Text(
-                          'Tema alterado com sucesso!',
+                          'Essa funcionalidade ainda não foi implementada!',
                           style: TextStyle(color: Colors.white),
                         ),
-                        backgroundColor: const Color(0xFF28A745),
+                        backgroundColor: Colors.red,
                         duration: const Duration(seconds: 2),
                         padding: const EdgeInsets.only(
                             left: 16, top: 16, bottom: 16),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     },
-                    activeColor: const Color(0xFF28A745),
-                  );
-                },
+                    activeColor: Colors.red,
+                  ),
+                ],
               ),
-              const SizedBox(height: 40),
-              const Text(
-                'Notificações',
-                style: TextStyle(fontSize: 20, color: Colors.black),
-              ),
-              Switch(
-                value: false,
-                onChanged: (bool value) {
-                  final snackBar = SnackBar(
-                    content: const Text(
-                      'Essa funcionalidade ainda não foi implementada!',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    backgroundColor: Colors.red,
-                    duration: const Duration(seconds: 2),
-                    padding:
-                        const EdgeInsets.only(left: 16, top: 16, bottom: 16),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                },
-                activeColor: Colors.red,
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
