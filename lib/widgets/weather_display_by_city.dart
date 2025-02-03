@@ -31,6 +31,13 @@ class WeatherDisplayByCity extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
             ),
           );
+        } else if (state is SearchError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage),
+              duration: const Duration(seconds: 2),
+            ),
+          );
         }
       },
       child: BlocBuilder<SearchCityBloc, SearchCityState>(
@@ -43,7 +50,7 @@ class WeatherDisplayByCity extends StatelessWidget {
             return Center(child: Text(state.errorMessage));
           }
           return const Center(
-            child: Text('Agora, tente pesquisar por uma cidade'),
+            child: Text('Agora, pesquise por uma cidade'),
           );
         },
       ),
