@@ -39,13 +39,27 @@ class _WeatherCardByGeolocationState extends State<WeatherCardByGeolocation> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
     double cardHeight = screenHeight * 0.210;
+
+    String lottieAsset = 'assets/images/solanimacao.json';
+    if (widget.weatherData.weatherCode != null) {
+      int weatherCode = widget.weatherData.weatherCode!;
+
+      if (weatherCode == 0) {
+        lottieAsset = 'assets/images/solanimacao.json';
+      } else if (weatherCode >= 1 && weatherCode <= 4) {
+        lottieAsset = 'assets/images/solnubladoanimacao.json';
+      } else if (weatherCode >= 5 && weatherCode <= 8) {
+        lottieAsset = 'assets/images/solchovendo.json';
+      }
+    }
 
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _showChart = !_showChart;
+        Future.delayed(const Duration(milliseconds: 500), () {
+          setState(() {
+            _showChart = !_showChart;
+          });
         });
       },
       child: Card(
@@ -93,14 +107,14 @@ class _WeatherCardByGeolocationState extends State<WeatherCardByGeolocation> {
                             Text(
                               cityName,
                               style: const TextStyle(
-                                fontSize: 24,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blueAccent,
                               ),
                             ),
                             const Spacer(),
                             Lottie.asset(
-                              'assets/images/animationlua.json',
+                              lottieAsset,
                               width: 100,
                             ),
                           ],
