@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:lapisco_challenge/models/weather_by_geolocation/weather_by_geo.dart';
@@ -20,7 +19,6 @@ class _WeatherCardByGeolocationState extends State<WeatherCardByGeolocation> {
   bool _showChart = false;
 
   Future<void> getName(double latitude, double longitude) async {
-    log('latitude = $latitude && longitude = $longitude');
     List<Placemark> placemarks =
         await placemarkFromCoordinates(latitude, longitude);
     cityName =

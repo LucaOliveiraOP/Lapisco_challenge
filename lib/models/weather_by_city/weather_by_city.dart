@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class WeatherByCity {
   final String cityName;
   final String admin1;
@@ -23,7 +21,6 @@ class WeatherByCity {
 
   factory WeatherByCity.fromJson(Map<String, dynamic> json) {
     var results = json;
-    log("teste =$results");
     String admin1 = (results.isNotEmpty && results['admin1'] != null)
         ? results['admin1']
         : 'Desconhecido';

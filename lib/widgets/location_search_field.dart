@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -28,14 +26,12 @@ class _LocationSearchFieldState extends State<LocationSearchField> {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-      log('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
       if (!mounted) return;
       context
           .read<WeatherBloc>()
           .add(GetWeatherByGeolocation(position.latitude, position.longitude));
     } catch (e) {
       if (!mounted) return;
-      log("Erro ao obter geolocalização: $e");
     }
   }
 
