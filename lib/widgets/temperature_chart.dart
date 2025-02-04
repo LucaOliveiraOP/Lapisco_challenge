@@ -12,9 +12,8 @@ class BarChartSample2 extends StatefulWidget {
     required this.minTemps,
   });
 
-  final Color leftBarColor = Colors.yellow;
-  final Color rightBarColor = Colors.red;
-  final Color avgColor = Colors.orange;
+  final Color leftBarColor = Colors.red;
+  final Color rightBarColor = Colors.blue;
 
   @override
   State<StatefulWidget> createState() => BarChartSample2State();
@@ -45,87 +44,37 @@ class BarChartSample2State extends State<BarChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-    final maxTemp = widget.maxTemps.reduce(max);
-    final maxY = maxTemp + 5;
+    final maxY = widget.maxTemps.reduce(max);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
+      padding: const EdgeInsets.fromLTRB(14, 30, 14, 0),
       child: Column(
         children: [
           Expanded(
             child: BarChart(
               BarChartData(
                 maxY: maxY,
-                barTouchData: BarTouchData(
-                  touchTooltipData: BarTouchTooltipData(
-                    getTooltipColor: (group) {
-                      return Colors.grey;
-                    },
-                    getTooltipItem: (a, b, c, d) => null,
-                  ),
-                  touchCallback: (FlTouchEvent event, response) {
-                    if (response == null || response.spot == null) {
-                      setState(() {
-                        touchedGroupIndex = -1;
-                        showingBarGroups = List.of(rawBarGroups);
-                      });
-                      return;
-                    }
-
-                    touchedGroupIndex = response.spot!.touchedBarGroupIndex;
-
-                    setState(() {
-                      if (!event.isInterestedForInteractions) {
-                        touchedGroupIndex = -1;
-                        showingBarGroups = List.of(rawBarGroups);
-                        return;
-                      }
-                      showingBarGroups = List.of(rawBarGroups);
-                      if (touchedGroupIndex != -1) {
-                        var sum = 0.0;
-                        for (final rod
-                            in showingBarGroups[touchedGroupIndex].barRods) {
-                          sum += rod.toY;
-                        }
-                        final avg = sum /
-                            showingBarGroups[touchedGroupIndex].barRods.length;
-
-                        showingBarGroups[touchedGroupIndex] =
-                            showingBarGroups[touchedGroupIndex].copyWith(
-                          barRods: showingBarGroups[touchedGroupIndex]
-                              .barRods
-                              .map((rod) {
-                            return rod.copyWith(
-                                toY: avg, color: widget.avgColor);
-                          }).toList(),
-                        );
-                      }
-                    });
-                  },
-                ),
+                minY: 0,
                 titlesData: FlTitlesData(
                   show: true,
-                  rightTitles: const AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  topTitles: const AxisTitles(
-                    sideTitles: SideTitles(showTitles: false),
-                  ),
-                  bottomTitles: AxisTitles(
+                  rightTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
-                      getTitlesWidget: bottomTitles,
-                      reservedSize: 42,
+                      reservedSize: 50,
+                      getTitlesWidget: (value, meta) {
+                        return Text(
+                          '${value.toStringAsFixed(0)}°C',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      },
                     ),
                   ),
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 28,
-                      interval: 1,
-                      getTitlesWidget: leftTitles,
-                    ),
-                  ),
+                  topTitles: AxisTitles(),
+                  bottomTitles: AxisTitles(),
+                  leftTitles: AxisTitles(),
                 ),
                 borderData: FlBorderData(show: false),
                 barGroups: showingBarGroups,
@@ -139,62 +88,18 @@ class BarChartSample2State extends State<BarChartSample2> {
     );
   }
 
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
-
-    String text;
-    if (value == 0) {
-      text = widget.minTemps.reduce(min).toString();
-    } else if (value == (widget.maxTemps.reduce(max) / 2)) {
-      text = (widget.maxTemps.reduce(max) / 2).toString();
-    } else if (value == widget.maxTemps.reduce(max)) {
-      text = widget.maxTemps.reduce(max).toString();
-    } else {
-      return Container();
-    }
-
-    return SideTitleWidget(
-      meta: meta,
-      space: 0,
-      child: Text(text, style: style),
-    );
-  }
-
-  Widget bottomTitles(double value, TitleMeta meta) {
-    final titles = <String>['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
-
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
-    );
-
-    return SideTitleWidget(
-      meta: meta,
-      space: 16,
-      child: text,
-    );
-  }
-
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
     return BarChartGroupData(
-      barsSpace: 4,
+      barsSpace: 0,
       x: x,
       barRods: [
         BarChartRodData(
-          toY: y1,
+          toY: y2,
           color: widget.leftBarColor,
           width: width,
         ),
         BarChartRodData(
-          toY: y2,
+          toY: y1,
           color: widget.rightBarColor,
           width: width,
         ),

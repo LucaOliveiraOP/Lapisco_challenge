@@ -79,8 +79,13 @@ class _WeatherCardByGeolocationState extends State<WeatherCardByGeolocation> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Center(
+                            child: Text(
+                          "Máximas e mínimas dos próximos 7 dias.",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
                         SizedBox(
-                          height: cardHeight * 0.9,
+                          height: cardHeight * 0.75,
                           child: BarChartSample2(
                             maxTemps:
                                 widget.weatherData.daily?.temperature2mMax ??

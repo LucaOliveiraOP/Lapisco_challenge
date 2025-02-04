@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lapisco_challenge/models/weather_by_city/weather_by_city.dart';
+import 'package:lapisco_challenge/widgets/temperature_chart.dart';
 import 'package:lottie/lottie.dart';
 
 class WeatherCardByCity extends StatefulWidget {
@@ -56,6 +57,18 @@ class _WeatherCardByCityState extends State<WeatherCardByCity> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Center(
+                            child: Text(
+                          "Máximas e mínimas dos próximos 7 dias.",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                        SizedBox(
+                          height: cardHeight * 0.75,
+                          child: BarChartSample2(
+                            maxTemps: widget.weatherData.dailyMaxTemperatures,
+                            minTemps: widget.weatherData.dailyMinTemperatures,
+                          ),
+                        ),
                         const SizedBox(height: 16),
                       ],
                     ),
