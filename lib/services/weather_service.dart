@@ -1,11 +1,39 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
 import 'package:lapisco_challenge/models/weather_by_city/weather_by_city.dart';
 import 'package:lapisco_challenge/models/weather_by_geolocation/weather_by_geo.dart';
 
 class WeatherService {
   final String apiUrl = 'https://api.open-meteo.com/v1/forecast';
+
+  Future<Position> getLocationAndPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.requestPermission();
+    }
+
+    // Verifica as permissões
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        throw Exception(
+            'Permissão de localização negada, habilite e reinicie o App');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      throw Exception(
+          'Permissão de localização permanentemente negada, caso queira utilizar o aplicativo, habilite e reinicie');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
 
   Future<WeatherByCity> fetchWeatherByCity(String cityName) async {
     final geocodingUrl = Uri.parse(

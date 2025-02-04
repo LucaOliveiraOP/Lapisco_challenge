@@ -6,9 +6,22 @@ import 'package:lapisco_challenge/widgets/weather_display_by_city.dart';
 import 'package:lapisco_challenge/widgets/weather_display_by_geolocation.dart';
 import 'package:lapisco_challenge/screens/settings_screen.dart';
 import 'package:lapisco_challenge/widgets/location_search_field.dart';
+import 'package:lapisco_challenge/blocs/weather_bloc/weather_bloc.dart';
+import 'package:lapisco_challenge/blocs/weather_bloc/weather_event.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<WeatherBloc>(context).add(GetWeatherByGeolocation());
+  }
 
   @override
   Widget build(BuildContext context) {
